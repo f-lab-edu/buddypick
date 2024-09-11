@@ -1,0 +1,61 @@
+
+  spring:
+  profiles:
+    default: local
+
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/buddypick;NON_KEYWORDS=USER
+    #url: jdbc:h2:mem:~/buddypick;NON_KEYWORDS=USER
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+  sql:
+    init:
+      mode: always
+
+  h2:
+    console:
+      enabled: true
+---
+
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+  sql:
+    init:
+      mode: never
+
+  h2:
+    console:
+      enabled: true
+---
+
+logging:
+  level:
+    #org.hibernate.SQL: debug
+    org.hibernate.orm.jdbc.bind: trace  # 파라미터바인딩 표시
+
