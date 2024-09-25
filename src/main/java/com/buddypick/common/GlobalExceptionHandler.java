@@ -1,13 +1,10 @@
 package com.buddypick.common;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindException;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.buddypick.common.error.ErrorCode;
 import com.buddypick.common.error.ErrorResponse;
 import com.buddypick.common.exception.EntityNotFoundException;
 import com.buddypick.common.exception.UserNotFoundException;
@@ -16,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestControllerAdvice
-public class BaseException {
+public class GlobalExceptionHandler {
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(IllegalArgumentException.class)
@@ -26,17 +23,18 @@ public class BaseException {
 		return new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
 	}
 
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(BindException.class)
-	public ErrorResponse validationException(BindException e) {
-		log.error("[BindException] ex ", e);
-		ErrorResponse response = new ErrorResponse(ErrorCode.INVALID_REQUEST);
-		for (FieldError fieldError : e.getFieldErrors()) {
-			response.addValidation(fieldError.getField(), fieldError.getDefaultMessage());
+	/*
+		@ResponseStatus(HttpStatus.BAD_REQUEST)
+		@ExceptionHandler(BindException.class)
+		public ErrorResponse validationException(BindException e) {
+			log.error("[BindException] ex ", e);
+			ErrorResponse response = new ErrorResponse(ErrorCode.INVALID_REQUEST);
+			for (FieldError fieldError : e.getFieldErrors()) {
+				response.addValidation(fieldError.getField(), fieldError.getDefaultMessage());
+			}
+			return response;
 		}
-		return response;
-	}
-
+	*/
 	@ExceptionHandler(EntityNotFoundException.class)
 	public ErrorResponse entityNotFoundException(EntityNotFoundException e) {
 		log.error("[EntityNotFoundException] ex ", e);

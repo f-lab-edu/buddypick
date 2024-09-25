@@ -1,20 +1,19 @@
 package com.buddypick.common.exception;
 
+import com.buddypick.common.error.ApiException;
 import com.buddypick.common.error.ErrorCode;
 
-public class EntityNotFoundException extends RuntimeException {
-	private final ErrorCode errorCode;
+public class EntityNotFoundException extends ApiException {
 
-	public EntityNotFoundException(ErrorCode errorCode) {
-		this.errorCode = errorCode;
+	public EntityNotFoundException(ErrorCode e) {
+		super(e.getMessage(), e);
 	}
 
-	public EntityNotFoundException(String message) {
-		super(message);
-		this.errorCode = ErrorCode.NOT_FOUND_ENTITY;
+	public EntityNotFoundException(String message, ErrorCode e) {
+		super(message, e);
 	}
 
 	public ErrorCode getErrorCode() {
-		return errorCode;
+		return getErrorCode();
 	}
 }
