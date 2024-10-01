@@ -5,15 +5,12 @@ import com.buddypick.common.error.ErrorCode;
 
 public class EntityNotFoundException extends ApiException {
 
-	public EntityNotFoundException(ErrorCode e) {
-		super(e.getMessage(), e);
+	public EntityNotFoundException(String message) {
+		super(message);
 	}
 
-	public EntityNotFoundException(String message, ErrorCode e) {
-		super(message, e);
-	}
-
-	public ErrorCode getErrorCode() {
-		return getErrorCode();
+	@Override
+	public String getErrorCode() {
+		return "ENTITY_NOT_FOUND";
 	}
 }

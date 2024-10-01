@@ -1,13 +1,11 @@
 package com.buddypick.common;
 
+import com.buddypick.common.error.ApiException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.buddypick.common.error.ErrorResponse;
-import com.buddypick.common.exception.EntityNotFoundException;
-import com.buddypick.common.exception.UserNotFoundException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,13 +13,18 @@ import lombok.extern.slf4j.Slf4j;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(IllegalArgumentException.class)
-	public ErrorResponse illegalArgumentException(IllegalArgumentException e) {
-		//e.printStackTrace();
-		log.error("[IllegalArgumentException] ex", e);
-		return new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+	@ExceptionHandler(ApiException.class)
+	public ErrorResponse handleApiException(ApiException e){
+		log.error("[handleApiException] ex", e);
+		return new ErrorResponse(e);
 	}
+
+	@ExceptionHandler(Exception.class)
+	public ErrorResponse handleException(Exception e){
+		log.error("[handleException] ex", e);
+		return new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+	}
+
 
 	/*
 		@ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -35,19 +38,5 @@ public class GlobalExceptionHandler {
 			return response;
 		}
 	*/
-	@ExceptionHandler(EntityNotFoundException.class)
-	public ErrorResponse entityNotFoundException(EntityNotFoundException e) {
-		log.error("[EntityNotFoundException] ex ", e);
-		ErrorResponse response = new ErrorResponse(e.getErrorCode(), e.getMessage());
-		return response;
-	}
-
-	@ExceptionHandler(UserNotFoundException.class)
-	public ErrorResponse userNotFoundException(UserNotFoundException e) {
-		log.error("[UserNotFoundException] ex ", e);
-		ErrorResponse response = new ErrorResponse(e.getErrorCode(), e.getMessage());
-		//ErrorResponse response = new ErrorResponse(ErrorCode.NOT_EXIST_USER);
-		return response;
-	}
 
 }

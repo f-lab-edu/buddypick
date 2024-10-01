@@ -9,14 +9,19 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ErrorResponse {
 
-	private final HttpStatus status;
-	private final String message;
+	private  HttpStatus status;
+	private  String message;
+	private  String errorCode;
 
-	public ErrorResponse(ErrorCode errorCode) {
-		this(errorCode.getStatus(), errorCode.getMessage());
+	public ErrorResponse(ApiException e){
+		this.status = e.getHttpStatus();
+		this.message = e.getMessage();
+		this.errorCode = e.getErrorCode();
 	}
 
-	public ErrorResponse(ErrorCode errorCode, String message) {
-		this(errorCode.getStatus(), message);
+	public ErrorResponse(HttpStatus status, String message) {
+        this.status = status;
+		this.message = message;
 	}
+
 }

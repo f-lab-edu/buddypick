@@ -1,19 +1,25 @@
 package com.buddypick.common.error;
 
-public class ApiException extends RuntimeException {
-	private ErrorCode code;
+import org.springframework.http.HttpStatus;
 
-	public ApiException(ErrorCode e) {
-		super(e.getMessage());
-		this.code = e;
-	}
+abstract public class ApiException extends RuntimeException {
 
-	public ApiException(String message, ErrorCode e) {
+	private  HttpStatus httpStatus;
+	private  String errorMessage;
+
+	public ApiException(HttpStatus httpStatus, String errorMessage){
+		super(errorMessage);
+        this.httpStatus = httpStatus;
+        this.errorMessage = errorMessage;
+    };
+
+	public ApiException(String message){
 		super(message);
-		this.code = e;
 	}
 
-	public ErrorCode getErrorCode() {
-		return code;
+	public HttpStatus getHttpStatus() {
+		return httpStatus;
 	}
+
+	abstract public String getErrorCode();
 }
