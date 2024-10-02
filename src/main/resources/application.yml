@@ -59,3 +59,11 @@ logging:
     #org.hibernate.SQL: debug
     org.hibernate.orm.jdbc.bind: trace  # 파라미터바인딩 표시
 
+
+security:
+  jwt:
+    secret-key: RandomSecretKey12345g67890RandomSecretKey1234567890dRandomSecretKey1234567890
+    #access-expired-time: 1000 * 60 * 60 * 24 * 7 #일주일
+    access-expired-time: 15552000000   # 1시간(ms) TODO 임시로 180일 설정
+    refresh-expired-time: 36000000     # 8시간(ms) => 604800000 : 7일(ms) / 10시간 => 36000000로 변경
+    #cookie-max-age: 7                  # 7일(d)

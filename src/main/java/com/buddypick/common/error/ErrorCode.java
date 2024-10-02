@@ -15,7 +15,7 @@ public enum ErrorCode {
 	DUPLICATE_USER(HttpStatus.BAD_REQUEST, "이미 가입된 회원입니다."),
 	;
 
-	private final HttpStatus httpStatus;
+	private final HttpStatus status;
 	private final String message;
 }
 
